@@ -2,34 +2,41 @@
 var canvas = document.getElementById("GameScreenCanvas");
 var ctx = canvas.getContext("2d");
 
-class HeartObject{
-    constructor(col, radius, positionX, positionY){
-        this.color = col;
+var colors = ["#C7C5FF", "black", "blue", "magenta", "pink", "cyan", "orange"]; 
+
+class circle{
+    constructor(colorIndex, radius, positionX, positionY){
+        this.color = colors[colorIndex];
         this.radius = radius;
         this.positionX = positionX;
         this.positionY = positionY;
     }
-    
     draw(){
+        ctx.save();
         ctx.beginPath();
-        for (var angle = 0; angle < Math.PI * 2; angle += 0.01) {
-        var x = this.positionX + this.radius * Math.cos(angle);
-        var y = this.positionY + this.radius * Math.sin(angle);
-        ctx.lineTo(x, y);
+
+        ctx.translate(this.positionX,this.positionY);
+        ctx.scale(this.radius,this.radius);
+
+        for(var i=0;i<360;i++){
+            ctx.lineTo(Math.cos(Math.PI/180*i), Math.sin(Math.PI/180*i));
         }
+        
         ctx.fillStyle = this.color;
         ctx.fill();
+        
         ctx.closePath();        
+        ctx.restore();
     }
-
 }
 
 
-
-function draw(){    
-    var Circle = new HeartObject("blue", Math.random()*100, Math.random()*500, Math.random()*500);
+function render(){
+    var Circle = new circle(Math.round(Math.random()*6), Math.random()*100, Math.random()*500, Math.random()*500);
     Circle.draw();
-    requestAnimationFrame(draw);
+    requestAnimationFrame(render);
 }
 
-draw();
+render();
+
+

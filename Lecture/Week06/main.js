@@ -3,22 +3,23 @@ var canvas = document.getElementById("GameScreenCanvas");
 var ctx = canvas.getContext("2d");
 
 
-draw();
-
-var radius= 50;
-
 function draw()
 {
-    
     ctx.beginPath();
-    for (var angle = 0; angle < Math.PI * 2; angle += 0.01) {
-      var x = 200 + radius * Math.cos(angle);
-      var y = 200 + radius * Math.sin(angle);
-      ctx.lineTo(x, y);
+    
+    for(var i=0;i<360;i++){
+      ctx.lineTo(Math.cos(Math.PI/180*i), Math.sin(Math.PI/180*i));
     }
-    ctx.fillStyle = 'blue';
-    ctx.fill();
-    ctx.closePath();
 
+    ctx.translate(300,300);
+    ctx.scale(100,100);
+
+    ctx.fillStyle = "orange";
+    ctx.fill();
+
+
+    ctx.closePath();
     requestAnimationFrame(draw);
 }
+
+draw();
