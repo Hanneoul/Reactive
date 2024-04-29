@@ -2,11 +2,11 @@
 var canvas = document.getElementById("GameScreenCanvas");
 var ctx = canvas.getContext("2d");
 
-class Circle{
+class Hexagon{
     constructor(posX, posY, rot, rotSpeed, size, color, moveDirX, moveDirY, speed){
         this.position_X = posX;
         this.position_Y = posY;
-        this.rotation_Y = rot;
+        this.rotation = rot;
         this.rotation_Speed = rotSpeed;
         this.color = color;
         this.size = size;
@@ -21,14 +21,14 @@ class Circle{
         this.position_X += (this.moveDirectionX * this.moveSpeed);
         this.position_Y += (this.moveDirectionY * this.moveSpeed);
 
-        this.rotation_Y += this.rotation_Speed;
+        this.rotation += this.rotation_Speed;
 
     }
 
     draw(){
         ctx.beginPath();
     
-        for(var i=this.rotation_Y;i<=360+this.rotation_Y;i+=72){
+        for(var i=this.rotation;i<=360+this.rotation;i+=72){
             ctx.lineTo((Math.cos(Math.PI/180*i)) * this.size + this.position_X, (Math.sin(Math.PI/180*i)) * this.size + this.position_Y);
         }
 
@@ -41,21 +41,29 @@ class Circle{
     }
 }
 
-var c = new Circle(0.0, 0.0, -90.0, 1.0, 50.0, "orange", 1.0, 1.0, 0.0);
+var a = new Hexagon(100.0, 0.0, -90.0, 2.0, 30.0, "green", 1.0, 1.0, 0.0);
+var b = new Hexagon(0.0, 100.0, -90.0, 5.0, 20.0, "blue", 1.0, 1.0, 0.0);
+var c = new Hexagon(0.0, 0.0, -90.0, 1.0, 50.0, "orange", 1.0, 1.0, 0.0);
 
 function draw()
 {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    a.update();
+    b.update();
     c.update();
     
     ctx.save();
     ctx.translate(canvas.width / 2, canvas.height / 2);
-
+    
+    a.draw();
+    b.draw();
     c.draw();
     ctx.restore();
 
     requestAnimationFrame(draw);
 }
+
+
 
 draw();
